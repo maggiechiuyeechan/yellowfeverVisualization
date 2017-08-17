@@ -1,0 +1,152 @@
+
+$fontFamily: "Source Sans Pro", sans-serif;
+
+body{
+  font-family: "Source Sans Pro", sans-serif;
+  background-color: #e5e9f0;
+}
+
+header {
+  position: fixed;
+  max-width: 30%;
+}
+/*
+.iconHolder {
+  height: 50px;
+  width: 50px;
+  background-color: #000;
+  /*  background: url("person.svg");
+*/
+
+/*.node{
+  height: 100px;
+  width: 100px;
+}
+
+.icon {
+  height: 10px;
+  width: 10px;
+  fill: #000;
+}*/
+#circleLegendTravellers {
+  display: inline;
+  margin-right: 1rem;
+  margin-left: 3rem;
+}
+
+#legendEndemic {
+  fill:#ff3c3c;
+}
+
+#legendSuitable {
+  fill:#ffd202;
+
+}
+
+.subText {
+  display: inline;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.1rem
+}
+
+#introStep {
+  box-shadow: none;
+
+  background-color: transparent;
+}
+.step {
+  background-color: rgba(255,255,255,0.95);
+  padding: 2rem;
+
+  /* offset-x | offset-y | blur-radius | spread-radius | color */
+  box-shadow: 0px 0px 30px 10px rgba(0,0,0,0.05);
+}
+
+
+h1 {
+  font-size: 3rem;
+  line-height: 1.1;
+  letter-spacing: -0.01rem;
+}
+
+h2 {
+  line-height: 2;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+}
+
+p {
+  line-height: 1.5;
+  font-size: 1.25rem;
+}
+
+/*.countryLabel{
+  font-size: 0.6rem;
+  z-index: 10;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+}
+*/
+#sections {
+  position: absolute;
+  margin: auto;
+  width: 50%;
+  top: 60%;
+  left: 50%;
+  z-index: 5;
+  transform: translateX(-50%);
+
+  text-align: center;
+}
+
+.step {
+  margin-bottom: 1000px;
+}
+
+.worldMap {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  z-index: -10;
+  margin-left: 0;
+  transition: opacity 1s;
+}
+
+.vis {
+/*  display: inline-block;
+*/  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  z-index: -10;
+  margin-left: 0;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+
+circle {
+  fill: #2076ff;
+}
+
+
+.destinationCircle {
+  animation: hideshow 5s ease infinite;
+  transform-origin: center center;
+}
+
+@keyframes hideshow {
+  0% { transform: scale(1.0); opacity:0.5; }
+  50% { transform: scale(1.25); opacity:1;  }
+  100% { transform: scale(1.0); opacity:0.5; }
+}
+
+.labels {
+  text-align: center;
+}
