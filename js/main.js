@@ -1,6 +1,11 @@
 import 'babel-polyfill';
-import * as d3 from 'd3';
 
+
+$(function(){
+  app.init();
+  display();
+  app.worldMap();
+});
 
 const app = {};
 
@@ -25,7 +30,7 @@ const app = {};
 app.init = function(){
 
 
- var svg = d3.select('.vis').append('svg')
+ var svg = d3.select('#vis').append('svg')
     .attr("width",app.width)
     .attr("height",app.height)
     .append("g")
@@ -52,7 +57,7 @@ app.init = function(){
      });
 
 
-        // console.log(nodes);
+    console.log(nodes);
 
 
     var doubledHeight = app.height*5;
@@ -275,7 +280,7 @@ app.worldMap = function(){
   var path = d3.geoPath()
     .projection(projection);
 
-  var svg = d3.select(".worldMap").append("svg")
+  var svg = d3.select("#worldMap").append("svg")
     .attr("width", app.width)
     .attr("height",app.height);
 
@@ -347,19 +352,7 @@ app.worldMap = function(){
     });
 
 
-
-
 } ///world map function
-
-
-
-$(function(){
-  app.init();
-  // setupSections();
-  display();
-  app.worldMap();
-});
-
 
 
 function display() {
@@ -383,26 +376,26 @@ function display() {
       // console.log(index);
 
       if(index==0 ){
-        $(".vis").css("opacity", "0");
-        $(".worldMap").css("opacity", "1");
+        $("#vis").css("opacity", "0");
+        $("#worldMap").css("opacity", "1");
       }else if (index==1){
         app.updateSimulation0();
-        $(".vis").css("opacity", "1");
-        $(".worldMap").css("opacity", "0");
+        $("#vis").css("opacity", "1");
+        $("#worldMap").css("opacity", "0");
       }else if(index==2){
          app.updateSimulation1();
-        $(".vis").css("opacity", "1");
-        $(".worldMap").css("opacity", "0");
+        $("#vis").css("opacity", "1");
+        $("#worldMap").css("opacity", "0");
 
       }else if(index==3){
         app.updateSimulation2();
-        $(".vis").css("opacity", "1");
-        $(".worldMap").css("opacity", "0");
+        $("#vis").css("opacity", "1");
+        $("#worldMap").css("opacity", "0");
 
       }else if(index==4){
         app.updateSimulation0();
-        $(".vis").css("opacity", "0");
-        $(".worldMap").css("opacity", "1");
+        $("#vis").css("opacity", "0");
+        $("#worldMap").css("opacity", "1");
       }
 
     // activate current section
