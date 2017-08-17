@@ -24,7 +24,11 @@ header {
 
 #legendSuitable {
   fill:#ffd202;
+}
 
+#legendProofRequired {
+  fill:#7d4cff;
+  opacity: 0.1;
 }
 
 .subText {
@@ -41,8 +45,7 @@ header {
 }
 .step {
   background-color: rgba(255,255,255,0.95);
-  padding: 2rem;
-
+  padding: 3rem;
   /* offset-x | offset-y | blur-radius | spread-radius | color */
   box-shadow: 0px 0px 30px 10px rgba(0,0,0,0.05);
 }
@@ -78,15 +81,16 @@ p {
   position: absolute;
   margin: auto;
   width: 50%;
-  top: 60%;
+  top: 50%;
   left: 50%;
   z-index: 5;
   transform: translateX(-50%);
-
+  
   text-align: center;
 }
 
 .step {
+  margin-top: 100px;
   margin-bottom: 1000px;
 }
 
@@ -144,4 +148,8 @@ circle {
 
 .bold {
   font-weight: 700;
+}
+
+#conclusionContainer {
+  margin-bottom: 5rem;
 }

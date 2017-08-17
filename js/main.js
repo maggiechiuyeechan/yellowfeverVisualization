@@ -44,7 +44,7 @@ app.init = function(){
 
      d.forEach(row=>{
       let numOfTravelers = Number(row.numTravelersOutbound);
-      let numOfNodes = Math.round(numOfTravelers/10000);
+      let numOfNodes = Math.round(numOfTravelers/5000);
       for(let i=0; i< numOfNodes; i++){
         let newNode = {
           originEndemic : row.originEndemic, 
@@ -154,6 +154,9 @@ app.init = function(){
         // console.log("activated0")
         //Apply the first separation of whether or not destination is endemic
         //put these bubble to a quarter of the way right
+
+
+      
         app.simulation= d3.forceSimulation()
                       .nodes(nodes)
                       .force("center_force", d3.forceCenter(app.width/2,app.height/2))
@@ -184,10 +187,14 @@ app.init = function(){
 
     app.updateSimulation1 = ()=>{
 
-      $(".vacEndYesDestEndTrue").css("fill","#ff3c3c");
-      $(".vacEndYesDestEndFalse").css("fill","#ffd202");
-      $(".vacEndNoDestEndTrue").css("fill","#ff3c3c");
-      $(".vacEndNoDestEndFalse").css("fill","#ffd202");
+      $(".vacEndYesDestEndTrue").css({"fill":"#ff3c3c", "opacity": 
+        "1"});
+      $(".vacEndYesDestEndFalse").css({"fill":"#ffd202", "opacity": 
+        "1"});
+      $(".vacEndNoDestEndTrue").css({"fill":"#ff3c3c", "opacity": 
+        "1"});
+      $(".vacEndNoDestEndFalse").css({"fill":"#ffd202", "opacity": 
+        "1"});
 
 
       // console.log("actived1");
@@ -226,8 +233,10 @@ app.init = function(){
 
         //Reposition the center force
       // console.log("actived2");
-      $(".vacEndYesDestEndTrue").css("fill","#7d4cff");
-      $(".vacEndYesDestEndFalse").css("fill","#7d4cff");
+      $(".vacEndYesDestEndTrue").css({"fill":"#7d4cff", "opacity": 
+        "0.1"});
+      $(".vacEndYesDestEndFalse").css({"fill":"#7d4cff", "opacity": 
+        "0.1"});
       $(".vacEndNoDestEndTrue").css("fill","#ff3c3c");
       $(".vacEndNoDestEndFalse").css("fill","#ffd202");
 
@@ -236,7 +245,7 @@ app.init = function(){
                   .force("center_force", d3.forceCenter(app.width/2,app.height/2))
                   .force("charge", d3.forceManyBody().strength(-100))
                   .force("vaccFrmEndemicNo", isolate(d3.forceY(app.height/4), (d)=>{ return d.vaccFrmEndemic === "No"; }).strength(2))
-                  .force("vaccFrmEndemicYes", isolate(d3.forceY(app.height/1.25), (d)=>{ return d.vaccFrmEndemic === "Yes"; }).strength(2))
+                  .force("vaccFrmEndemicYes", isolate(d3.forceY(app.height/2), (d)=>{ return d.vaccFrmEndemic === "Yes"; }).strength(2))
                   .force("endToend", isolate(d3.forceX(app.width/5), (d)=>{ return d.originEndemic === "TRUE" && d.destEndemic === "TRUE"; }).strength(2))
                   .force("endTosuit", isolate(d3.forceX(app.width/1.25), (d)=>{ return d.originEndemic === "TRUE" && d.destEndemic === "FALSE"; }).strength(2))
         //Separate the countries with vaccination policies
@@ -492,7 +501,7 @@ function scroller() {
    */
 
   function position() {
-    var pos = window.pageYOffset - 10 - containerStart;
+    var pos = window.pageYOffset - app.height - containerStart;
     var sectionIndex = d3.bisect(sectionPositions, pos);
     sectionIndex = Math.min(sections.size() - 1, sectionIndex);
 
