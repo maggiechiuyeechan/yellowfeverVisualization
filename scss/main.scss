@@ -14,6 +14,22 @@ header {
   max-width: 100%;
 }
 
+.flightLine {
+  z-index: 10;
+}
+.endemicCirclesMap,
+.suitableCirclesMap {
+  z-index:0;
+  opacity: 1;
+  r: 3;
+  fill:#f34daf;
+
+}
+
+.suitableCirclesMap {
+  fill:#afd679;
+}
+
 #circleLegendTravellers {
   display: inline;
   margin-right: 1rem;
@@ -21,11 +37,11 @@ header {
 }
 
 #legendEndemic {
-  fill:#b468b2;
+  fill:#f34daf;
 }
 
 #legendSuitable {
-  fill:#f8b461;
+  fill:#afd679;
 }
 
 #legendProofRequired {

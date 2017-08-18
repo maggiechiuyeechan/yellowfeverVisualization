@@ -188,13 +188,13 @@ app.init = function(){
 
     app.updateSimulation1 = ()=>{
 
-      $(".vacEndYesDestEndTrue").css({"fill":"#b468b2", "opacity": 
+      $(".vacEndYesDestEndTrue").css({"fill":"#f34daf", "opacity": 
         "1"});
-      $(".vacEndYesDestEndFalse").css({"fill":"#f8b461", "opacity": 
+      $(".vacEndYesDestEndFalse").css({"fill":"#afd679", "opacity": 
         "1"});
-      $(".vacEndNoDestEndTrue").css({"fill":"#b468b2", "opacity": 
+      $(".vacEndNoDestEndTrue").css({"fill":"#f34daf", "opacity": 
         "1"});
-      $(".vacEndNoDestEndFalse").css({"fill":"#f8b461", "opacity": 
+      $(".vacEndNoDestEndFalse").css({"fill":"#afd679", "opacity": 
         "1"});
 
 
@@ -236,8 +236,8 @@ app.init = function(){
         "0.1"});
       $(".vacEndYesDestEndFalse").css({"fill":"#4dc6f3", "opacity": 
         "0.1"});
-      $(".vacEndNoDestEndTrue").css("fill","#b468b2");
-      $(".vacEndNoDestEndFalse").css("fill","#f8b461");
+      $(".vacEndNoDestEndTrue").css("fill","#f34daf");
+      $(".vacEndNoDestEndFalse").css("fill","#afd679");
 
       app.simulation
                   .nodes(nodes)
@@ -295,7 +295,7 @@ app.init = function(){
 app.worldMap = function(){
 
   var projection = d3.geoMercator()
-  .translate([app.width/2,app.height/2])
+  .translate([app.width/2,app.height/2.5])
   .scale(app.width/6);
 
   var coordinates = [
@@ -325,19 +325,48 @@ app.worldMap = function(){
         .append("path")
         .attr("d", path)
         .attr("class", "countries")
-        .style("fill", function(d){
-            if (listOfEndemicCountries.includes(d.properties.ADMIN))
-                {return "#b468b2"}
-            else if (listOfSuitableCountries.includes(d.properties.ADMIN)){return "#f8b461"}
-              else { return "#f3f3f5"}
-        })
-        .style("stroke", function(d){
-            if (listOfEndemicCountries.includes(d.properties.ADMIN))
-                {return "#b468b2"}
-            else if (listOfSuitableCountries.includes(d.properties.ADMIN)){return "#f8b461"}
-              else { return "#fff"}
+        .style("fill", "#f3f3f5")
+        // .style("fill", function(d){
+        //     if (listOfEndemicCountries.includes(d.properties.ADMIN))
+        //         {return "#f34daf"}
+        //     else if (listOfSuitableCountries.includes(d.properties.ADMIN)){return "#afd679"}
+        //       else { return "#f3f3f5"}
+        // })
+        // .style("stroke", function(d){
+        //     if (listOfEndemicCountries.includes(d.properties.ADMIN))
+        //         {return "#f34daf"}
+        //     else if (listOfSuitableCountries.includes(d.properties.ADMIN)){return "#afd679"}
+        //       else { return "#fff"}
+        // });
+
+        d3.csv("./data/suitable.csv", function(d) {
+          svg.selectAll("circle")
+            .data(d)
+            .enter()
+            .append("circle")
+            .attr("cx", function (d) {
+                return projection([d.Long_, d.Lat])[0];
+            })
+            .attr("cy", function (d) {
+                return projection([d.Long_, d.Lat])[1];
+            })
+            .attr("class", "suitableCirclesMap" )
         });
 
+
+        d3.csv("./data/endemic.csv", function(d) {
+          svg.selectAll("circle")
+            .data(d)
+            .enter()
+            .append("circle")
+            .attr("cx", function (d) {
+                return projection([d.Long_, d.Lat])[0];
+            })
+            .attr("cy", function (d) {
+                return projection([d.Long_, d.Lat])[1];
+            })
+            .attr("class", "endemicCirclesMap" )
+        });
 
 
         var line = svg.append("path")
@@ -356,6 +385,7 @@ app.worldMap = function(){
           .style("stroke", "black")
           .style("stroke-width", 3)
           .style("fill", "none")
+          .attr("class","flightLine")
           .transition()
           .duration(2000)
           .attrTween("stroke-dasharray", function() {
