@@ -63,6 +63,7 @@ app.init = function(){
     var doubledHeight = app.height*5;
 
 
+
     var node =svg.selectAll("circle")
         .data(nodes)
         .enter()
@@ -129,6 +130,11 @@ app.init = function(){
           .nodes(nodes)
           .force("center_force", d3.forceCenter(app.width/2,app.height/2))
           .force("charge", d3.forceManyBody().strength(0))
+          .force("vaccFrmEndemicNo", null)
+          .force("vaccFrmEndemicYes", null)
+
+          .force("endTosuit", null)
+          .force("endToend",null)
           // .force("collide", d3.forceCollide().radius(function(d) { return d.r + 1000; }).strength(100))
           .on("tick", tickActions);
 
@@ -147,26 +153,21 @@ app.init = function(){
       app.updateSimulation0 = ()=>{
 
 
-        $(".vacEndYesDestEndTrue").css("fill","#2076ff");
-        $(".vacEndYesDestEndFalse").css("fill","#2076ff");
-        $(".vacEndNoDestEndTrue").css("fill","#2076ff");
-        $(".vacEndNoDestEndFalse").css("fill","#2076ff");
-        // console.log("activated0")
-        //Apply the first separation of whether or not destination is endemic
-        //put these bubble to a quarter of the way right
+        $(".vacEndYesDestEndTrue").css("fill","#4dc6f3");
+        $(".vacEndYesDestEndFalse").css("fill","#4dc6f3");
+        $(".vacEndNoDestEndTrue").css("fill","#4dc6f3");
+        $(".vacEndNoDestEndFalse").css("fill","#4dc6f3");
 
 
-      
+
+
         app.simulation= d3.forceSimulation()
                       .nodes(nodes)
                       .force("center_force", d3.forceCenter(app.width/2,app.height/2))
-                      .force("charge", d3.forceManyBody().strength(-10))
-
-                      .force("vaccFrmEndemicNo", null)
-                      .force("vaccFrmEndemicYes", null)
-
-                      .force("endTosuit", null)
-                      .force("endToend",null)
+                      .force("charge", d3.forceManyBody().strength(-100))
+                      .force("vaccFrmEndemicNo", d3.forceY(app.height/2).strength(1))
+                      // .force("vaccFrmEndemicYes", d3.forceY(app.height/2).strength(0))
+                      .force("endToend", d3.forceX(app.width/2).strength(1))
                       .on("tick", tickActions);
       }; 
 
@@ -187,20 +188,18 @@ app.init = function(){
 
     app.updateSimulation1 = ()=>{
 
-      $(".vacEndYesDestEndTrue").css({"fill":"#ff3c3c", "opacity": 
+      $(".vacEndYesDestEndTrue").css({"fill":"#b468b2", "opacity": 
         "1"});
-      $(".vacEndYesDestEndFalse").css({"fill":"#ffd202", "opacity": 
+      $(".vacEndYesDestEndFalse").css({"fill":"#f8b461", "opacity": 
         "1"});
-      $(".vacEndNoDestEndTrue").css({"fill":"#ff3c3c", "opacity": 
+      $(".vacEndNoDestEndTrue").css({"fill":"#b468b2", "opacity": 
         "1"});
-      $(".vacEndNoDestEndFalse").css({"fill":"#ffd202", "opacity": 
+      $(".vacEndNoDestEndFalse").css({"fill":"#f8b461", "opacity": 
         "1"});
 
 
       // console.log("actived1");
 
-      //Apply the first separation of whether or not destination is endemic
-      //put these bubble to a quarter of the way right
       app.simulation
                     // .nodes(nodes)
                     .force("center_force", d3.forceCenter(app.width/2,app.height/2))
@@ -233,14 +232,14 @@ app.init = function(){
 
         //Reposition the center force
       // console.log("actived2");
-      $(".vacEndYesDestEndTrue").css({"fill":"#7d4cff", "opacity": 
+      $(".vacEndYesDestEndTrue").css({"fill":"#4dc6f3", "opacity": 
         "0.1"});
-      $(".vacEndYesDestEndFalse").css({"fill":"#7d4cff", "opacity": 
+      $(".vacEndYesDestEndFalse").css({"fill":"#4dc6f3", "opacity": 
         "0.1"});
-      $(".vacEndNoDestEndTrue").css("fill","#ff3c3c");
-      $(".vacEndNoDestEndFalse").css("fill","#ffd202");
+      $(".vacEndNoDestEndTrue").css("fill","#b468b2");
+      $(".vacEndNoDestEndFalse").css("fill","#f8b461");
 
-      app.simulation 
+      app.simulation
                   .nodes(nodes)
                   .force("center_force", d3.forceCenter(app.width/2,app.height/2))
                   .force("charge", d3.forceManyBody().strength(-100))
@@ -254,8 +253,27 @@ app.init = function(){
 
     app.updateSimulation3 = ()=>{
 
-      app.simulation 
-                  .nodes(nodes)
+
+      //restart
+      node = node.data(nodes)
+      node.exit().remove();
+      // node = svg.selectAll("circle")
+      //         .enter()
+      //         .append("g")
+      //         .attr("class","node") 
+      // eachNode = node.append("circle")
+      //         .attr("r", 5)
+      //         .attr("class", (d)=>{
+      //             if (d.vaccFrmEndemic === "Yes" && d.destEndemic === "TRUE"){return "vacEndYesDestEndTrue"}
+      //             else if (d.vaccFrmEndemic === "Yes" && d.destEndemic === "FALSE") { return "vacEndYesDestEndFalse"}
+      //             else if (d.vaccFrmEndemic === "No" && d.destEndemic === "TRUE") { return "vacEndNoDestEndTrue"}
+      //             else if (d.vaccFrmEndemic === "No" && d.destEndemic === "FALSE") { return "vacEndNoDestEndFalse"}
+      //           })
+
+
+
+      app.simulation
+                  .nodes(node)
                   .force("center_force", d3.forceCenter(app.width/2,app.height/2))
                   // .force("charge", d3.forceManyBody().strength(1))
                   // .force("charge", d3.forceManyBody().strength(1))
@@ -300,6 +318,7 @@ app.worldMap = function(){
       // listOfEndemicCountries.includes(d.properties.ADMIN)
   var listOfSuitableCountries = ["United States Minor Outlying Islands", "United States of America", "Mexico", "United Arab Emirates", "Peru", "Ecuador", "Dominican Republic","Brazil", "Venezuela","China","India","Cuba","Saudi Arabia","Costa Rica","United Republic of Tanzania","Egypt","Argentina","Rwanda","Guatemala","El Salvador","Hong Kong S.A.R.","Thailand"]
 
+
       svg.selectAll(".countries")
         .data(topojson.feature(world, world.objects.countrieswithoutATA).features)
         .enter()
@@ -308,10 +327,17 @@ app.worldMap = function(){
         .attr("class", "countries")
         .style("fill", function(d){
             if (listOfEndemicCountries.includes(d.properties.ADMIN))
-                {return "#ff3c3c"}
-            else if (listOfSuitableCountries.includes(d.properties.ADMIN)){return "#ffd202"}
-              else { return "#FFF"}
+                {return "#b468b2"}
+            else if (listOfSuitableCountries.includes(d.properties.ADMIN)){return "#f8b461"}
+              else { return "#f3f3f5"}
+        })
+        .style("stroke", function(d){
+            if (listOfEndemicCountries.includes(d.properties.ADMIN))
+                {return "#b468b2"}
+            else if (listOfSuitableCountries.includes(d.properties.ADMIN)){return "#f8b461"}
+              else { return "#fff"}
         });
+
 
 
         var line = svg.append("path")
@@ -346,7 +372,7 @@ app.worldMap = function(){
               .attr('r', 15)
               // .style("stroke", "black")
               // .style("stroke-width", 2)
-              .style("fill", "#7d4cff")
+              .style("fill", "#4dc6f3")
               .attr('class', "destinationCircle")
               // .transition()
               // .duration(1000)
@@ -501,7 +527,7 @@ function scroller() {
    */
 
   function position() {
-    var pos = window.pageYOffset - app.height - containerStart;
+    var pos = window.pageYOffset - app.height/1.5 - containerStart;
     var sectionIndex = d3.bisect(sectionPositions, pos);
     sectionIndex = Math.min(sections.size() - 1, sectionIndex);
 
