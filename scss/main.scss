@@ -5,7 +5,7 @@ $fontFamily: "Source Sans Pro", sans-serif;
 body{
   font-family: "Source Sans Pro", sans-serif;
 /*  background-color: #fff;
-*/  background-color: #FFF;
+*/  background-color: #f7f7f7;
   color: #1a0c03; /*textblack*/
 }
 
@@ -17,17 +17,31 @@ header {
 .flightLine {
   z-index: 10;
 }
+
+
+.countries {
+/*  fill: #f6f6f7;
+*/  stroke: #f7f7f7;
+stroke-width: 1;
+  fill: #e5e6e9;
+}
 .endemicCirclesMap,
 .suitableCirclesMap {
-  z-index:0;
-  opacity: 1;
-  r: 3;
-  fill:#f34daf;
+  z-index: -1;
+  opacity: 0.7;
+  mix-blend-mode: multiply;
+}
+
+.countries {
+  mix-blend-mode: multiply;
 
 }
 
+.endemicCirclesMap {
+  fill:#80326e;
+}
 .suitableCirclesMap {
-  fill:#afd679;
+  fill:#de6e00;
 }
 
 #circleLegendTravellers {
@@ -37,23 +51,46 @@ header {
 }
 
 #legendEndemic {
-  fill:#f34daf;
+  fill:#80326e;
+/*  stroke: black;
+  stroke-width: 2;*/
+
 }
 
 #legendSuitable {
-  fill:#afd679;
+  fill:#de6e00;
+/*  stroke: black;
+  stroke-width: 2;*/
+
 }
 
 #legendProofRequired {
-  fill:#4dc6f3;
+  fill:#0093c8;
   opacity: 0.1;
+/*  stroke: black;
+  stroke-width: 2;*/
+
+
 }
 
+
+.subText__container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
 .subText {
-/*  display: inline;
-*/  text-transform: uppercase;
+  text-transform: uppercase;
   font-size: 15px;
   letter-spacing: 0.1rem;
+  background-color: #f7f7f7;
+  padding: 0.5rem;
+  padding-right: 2rem;
+  padding-left:2rem;
+  border-radius: 1rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 #introStep {
@@ -62,38 +99,25 @@ header {
   background-color: transparent;
 }
 
-.mainHeader{
-  padding-top: 2rem;
-}
-
 .step {
   background-color: rgba(255,255,255,0.95);
   padding-bottom: 2rem;
   padding-top: 2rem;
-
   padding-right: 3rem;
   padding-left: 3rem;
+  border-radius: 1rem;
 
-
+  margin-bottom: 50rem;
   /* offset-x | offset-y | blur-radius | spread-radius | color */
   box-shadow: 0px 0px 30px 10px rgba(0,0,0,0.05);
 }
 
 
-.sectionIcons {
-  border-radius: 50%;
-  box-shadow: 0px 0px 30px 10px rgba(0,0,0,0.05);
-}
-
-.step {
-/*  margin-top: 100px;
-*/  margin-bottom: 50rem;
-}
-
-
 h1 {
-  font-size: 3.5rem;
-  line-height: 1.1;
+  font-family: "Merriweather";
+  font-size: 2rem;
+  line-height: 1.5;
+  padding:0;
 /*  text-transform: uppercase;
   letter-spacing: 0.1rem;*/
   text-align: center;
@@ -107,8 +131,8 @@ h2 {
 }
 
 p {
-  line-height: 1.75;
-  font-size: 1.25rem;
+  line-height: 1.5;
+  font-size: 1.125rem;
 }
 
 /*.countryLabel{
@@ -122,13 +146,13 @@ p {
 #sections {
   position: absolute;
   margin: auto;
-  width: 80%;
-  top: 60%;
+  width: 70%;
+  top: 100vh;
   left: 50%;
   z-index: 5;
-  transform: translateX(-50%);
-  
-  text-align: center;
+  transform: translate(-50%, -30rem);
+/*  transform: translateY();
+*/  text-align: center;
 }
 
 #worldMap {
@@ -157,7 +181,7 @@ p {
 
 
 circle {
-  fill: #003014;
+  fill: #0093c8;
 }
 
 
@@ -187,13 +211,30 @@ circle {
   font-weight: 700;
 }
 
-.mainHeader {
-  text-align: center;
-}
 .author {
   text-align: center;
 }
 
 #conclusionContainer {
-  margin-bottom: 5rem;
+  margin-bottom: 20rem;
 }
+
+/*.vacEndYesDestEndTrue {
+    fill: #0093c8;
+    transition: fill 2s;
+}
+
+.vacEndYesDestEndFalse {
+    fill: #0093c8;
+    transition: fill 2s;
+}
+
+.vacEndNoDestEndTrue {
+    fill: #0093c8;
+    transition: fill 2s;
+}
+
+.vacEndNoDestEndFalse {
+    fill: #0093c8;
+    transition: fill 2s;
+}*/

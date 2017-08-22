@@ -29,7 +29,6 @@ const app = {};
 
 app.init = function(){
 
-
  var svg = d3.select('#vis').append('svg')
     .attr("width",app.width)
     .attr("height",app.height)
@@ -44,7 +43,7 @@ app.init = function(){
 
      d.forEach(row=>{
       let numOfTravelers = Number(row.numTravelersOutbound);
-      let numOfNodes = Math.round(numOfTravelers/5000);
+      let numOfNodes = Math.round(numOfTravelers/10000);
       for(let i=0; i< numOfNodes; i++){
         let newNode = {
           originEndemic : row.originEndemic, 
@@ -128,7 +127,7 @@ app.init = function(){
       ////////////////////////
       app.simulation = d3.forceSimulation()
           .nodes(nodes)
-          .force("center_force", d3.forceCenter(app.width/2,app.height/2))
+          .force("center_force", d3.forceCenter(app.width/2,app.height/2.5))
           .force("charge", d3.forceManyBody().strength(0))
           .force("vaccFrmEndemicNo", null)
           .force("vaccFrmEndemicYes", null)
@@ -153,22 +152,25 @@ app.init = function(){
       app.updateSimulation0 = ()=>{
 
 
-        $(".vacEndYesDestEndTrue").css("fill","#4dc6f3");
-        $(".vacEndYesDestEndFalse").css("fill","#4dc6f3");
-        $(".vacEndNoDestEndTrue").css("fill","#4dc6f3");
-        $(".vacEndNoDestEndFalse").css("fill","#4dc6f3");
+        $(".vacEndYesDestEndTrue").css("fill","#0093c8");
+        $(".vacEndYesDestEndFalse").css("fill","#0093c8");
+        $(".vacEndNoDestEndTrue").css("fill","#0093c8");
+        $(".vacEndNoDestEndFalse").css("fill","#0093c8");
 
 
-
+        node = node.data(nodes)
+        node.exit().remove();
 
         app.simulation= d3.forceSimulation()
                       .nodes(nodes)
-                      .force("center_force", d3.forceCenter(app.width/2,app.height/2))
+                      .force("center_force", d3.forceCenter(app.width/2,app.height/2.5))
                       .force("charge", d3.forceManyBody().strength(-100))
-                      .force("vaccFrmEndemicNo", d3.forceY(app.height/2).strength(1))
-                      // .force("vaccFrmEndemicYes", d3.forceY(app.height/2).strength(0))
-                      .force("endToend", d3.forceX(app.width/2).strength(1))
+                      .force("vaccFrmEndemicNo", d3.forceY(app.height/2).strength(0.6))
+                      .force("endToend", d3.forceX(app.width/2).strength(0.6))
                       .on("tick", tickActions);
+
+        app.simulation.alpha(1).restart();
+
       }; 
 
 
@@ -184,32 +186,32 @@ app.init = function(){
 ////////////////////////
 
 
-
+  ////ENDEMIC VS SUITABLE
 
     app.updateSimulation1 = ()=>{
 
-      $(".vacEndYesDestEndTrue").css({"fill":"#f34daf", "opacity": 
+      $(".vacEndYesDestEndTrue").css({"fill":"#80326e", "opacity": 
         "1"});
-      $(".vacEndYesDestEndFalse").css({"fill":"#afd679", "opacity": 
+      $(".vacEndYesDestEndFalse").css({"fill":"#de6e00", "opacity": 
         "1"});
-      $(".vacEndNoDestEndTrue").css({"fill":"#f34daf", "opacity": 
+      $(".vacEndNoDestEndTrue").css({"fill":"#80326e", "opacity": 
         "1"});
-      $(".vacEndNoDestEndFalse").css({"fill":"#afd679", "opacity": 
+      $(".vacEndNoDestEndFalse").css({"fill":"#de6e00", "opacity": 
         "1"});
 
 
       // console.log("actived1");
-
       app.simulation
-                    // .nodes(nodes)
-                    .force("center_force", d3.forceCenter(app.width/2,app.height/2))
-                    // .force("charge", d3.forceManyBody().strength(1))
-                    .force("charge", d3.forceManyBody().strength(-500))
+                    .force("charge", d3.forceManyBody().strength(-50))
+                    .force("center_force", d3.forceCenter(app.width/2,app.height/2.5))
 
-                    .force("vaccFrmEndemicNo", d3.forceY(app.height/3).strength(1.75))
-                    .force("vaccFrmEndemicYes", d3.forceY(app.height/3).strength(1.75))
-                    .force("endToend", isolate(d3.forceX(app.width/5), (d)=>{ return d.originEndemic === "TRUE" && d.destEndemic === "TRUE"; }).strength(2.5))
-                    .force("endTosuit", isolate(d3.forceX(app.width/2), (d)=>{ return d.originEndemic === "TRUE" && d.destEndemic === "FALSE"; }).strength(2.5))
+                    .force("vaccFrmEndemicNo", d3.forceY(app.height/2).strength(0.25))
+                    .force("vaccFrmEndemicYes", d3.forceY(app.height/2).strength(0.25))
+                    .force("endToend", isolate(d3.forceX(app.width/5), (d)=>{ return d.originEndemic === "TRUE" && d.destEndemic === "TRUE"; }).strength(0.25))
+                    .force("endTosuit", isolate(d3.forceX(app.width/2.5), (d)=>{ return d.originEndemic === "TRUE" && d.destEndemic === "FALSE"; }).strength(0.25))
+
+
+      app.simulation.alpha(1).restart();
 
       }; 
 
@@ -232,22 +234,24 @@ app.init = function(){
 
         //Reposition the center force
       // console.log("actived2");
-      $(".vacEndYesDestEndTrue").css({"fill":"#4dc6f3", "opacity": 
+      $(".vacEndYesDestEndTrue").css({"fill":"#0093c8", "opacity": 
         "0.1"});
-      $(".vacEndYesDestEndFalse").css({"fill":"#4dc6f3", "opacity": 
+      $(".vacEndYesDestEndFalse").css({"fill":"#0093c8", "opacity": 
         "0.1"});
-      $(".vacEndNoDestEndTrue").css("fill","#f34daf");
-      $(".vacEndNoDestEndFalse").css("fill","#afd679");
+      $(".vacEndNoDestEndTrue").css("fill","#80326e");
+      $(".vacEndNoDestEndFalse").css("fill","#de6e00");
 
       app.simulation
-                  .nodes(nodes)
-                  .force("center_force", d3.forceCenter(app.width/2,app.height/2))
-                  .force("charge", d3.forceManyBody().strength(-100))
-                  .force("vaccFrmEndemicNo", isolate(d3.forceY(app.height/4), (d)=>{ return d.vaccFrmEndemic === "No"; }).strength(2))
-                  .force("vaccFrmEndemicYes", isolate(d3.forceY(app.height/2), (d)=>{ return d.vaccFrmEndemic === "Yes"; }).strength(2))
-                  .force("endToend", isolate(d3.forceX(app.width/5), (d)=>{ return d.originEndemic === "TRUE" && d.destEndemic === "TRUE"; }).strength(2))
-                  .force("endTosuit", isolate(d3.forceX(app.width/1.25), (d)=>{ return d.originEndemic === "TRUE" && d.destEndemic === "FALSE"; }).strength(2))
+
+                  .force("charge", d3.forceManyBody().strength(-25))
+                  .force("center_force", d3.forceCenter(app.width/2,app.height/1.7))
+                  .force("vaccFrmEndemicNo", isolate(d3.forceY(app.height/4), (d)=>{ return d.vaccFrmEndemic === "No"; }).strength(0.25))
+                  .force("vaccFrmEndemicYes", isolate(d3.forceY(app.height/2), (d)=>{ return d.vaccFrmEndemic === "Yes"; }).strength(0.25))
+                  .force("endToend", isolate(d3.forceX(app.width/5), (d)=>{ return d.originEndemic === "TRUE" && d.destEndemic === "TRUE"; }).strength(0.25))
+                  .force("endTosuit", isolate(d3.forceX(app.width/2.5), (d)=>{ return d.originEndemic === "TRUE" && d.destEndemic === "FALSE"; }).strength(0.25))
         //Separate the countries with vaccination policies
+        app.simulation.alpha(1).restart();
+
     };
 
 
@@ -283,6 +287,9 @@ app.init = function(){
                   .force("vaccFrmEndemicYes", null)
                   .force("endToend", null)
                   .force("endTosuit",  null)
+
+                  app.simulation.alpha(1).restart();
+
         //Separate the countries with vaccination policies
     }; //updateSimulation3
 
@@ -295,8 +302,8 @@ app.init = function(){
 app.worldMap = function(){
 
   var projection = d3.geoMercator()
-  .translate([app.width/2,app.height/2.5])
-  .scale(app.width/6);
+  .translate([app.width/2,app.height/3])
+  .scale(app.width/4.5);
 
   var coordinates = [
     projection([18, -9]), // new york
@@ -319,56 +326,25 @@ app.worldMap = function(){
   var listOfSuitableCountries = ["United States Minor Outlying Islands", "United States of America", "Mexico", "United Arab Emirates", "Peru", "Ecuador", "Dominican Republic","Brazil", "Venezuela","China","India","Cuba","Saudi Arabia","Costa Rica","United Republic of Tanzania","Egypt","Argentina","Rwanda","Guatemala","El Salvador","Hong Kong S.A.R.","Thailand"]
 
 
+
       svg.selectAll(".countries")
         .data(topojson.feature(world, world.objects.countrieswithoutATA).features)
         .enter()
         .append("path")
         .attr("d", path)
         .attr("class", "countries")
-        .style("fill", "#f3f3f5")
         // .style("fill", function(d){
         //     if (listOfEndemicCountries.includes(d.properties.ADMIN))
-        //         {return "#f34daf"}
-        //     else if (listOfSuitableCountries.includes(d.properties.ADMIN)){return "#afd679"}
+        //         {return "#80326e"}
+        //     else if (listOfSuitableCountries.includes(d.properties.ADMIN)){return "#de6e00"}
         //       else { return "#f3f3f5"}
         // })
         // .style("stroke", function(d){
         //     if (listOfEndemicCountries.includes(d.properties.ADMIN))
-        //         {return "#f34daf"}
-        //     else if (listOfSuitableCountries.includes(d.properties.ADMIN)){return "#afd679"}
+        //         {return "#80326e"}
+        //     else if (listOfSuitableCountries.includes(d.properties.ADMIN)){return "#de6e00"}
         //       else { return "#fff"}
         // });
-
-        d3.csv("./data/suitable.csv", function(d) {
-          svg.selectAll("circle")
-            .data(d)
-            .enter()
-            .append("circle")
-            .attr("cx", function (d) {
-                return projection([d.Long_, d.Lat])[0];
-            })
-            .attr("cy", function (d) {
-                return projection([d.Long_, d.Lat])[1];
-            })
-            .attr("class", "suitableCirclesMap" )
-        });
-
-
-        d3.csv("./data/endemic.csv", function(d) {
-          svg.selectAll("circle")
-            .data(d)
-            .enter()
-            .append("circle")
-            .attr("cx", function (d) {
-                return projection([d.Long_, d.Lat])[0];
-            })
-            .attr("cy", function (d) {
-                return projection([d.Long_, d.Lat])[1];
-            })
-            .attr("class", "endemicCirclesMap" )
-        });
-
-
         var line = svg.append("path")
           .datum(coordinates)
           .attr("d", function(c) {
@@ -400,21 +376,44 @@ app.worldMap = function(){
               .attr('cx', c[0])
               .attr('cy', c[1])
               .attr('r', 15)
-              // .style("stroke", "black")
-              // .style("stroke-width", 2)
-              .style("fill", "#4dc6f3")
+              .style("fill", "#0093c8")
               .attr('class', "destinationCircle")
-              // .transition()
-              // .duration(1000)
-              // .attr('r', 50)
-              // .on('end', function(d) {
-              //   d3.select(this)
-              //     .transition()
-              //     .duration(2000)
-              //     .attr('r', 10);
-              // });
           });
     });
+
+
+  d3.csv("./data/endemic.csv", function(d) {
+    svg.selectAll("circle")
+      .data(d)
+      .enter()
+      .append("circle")
+      .attr("cx", function (d) {
+          return projection([d.Long_, d.Lat])[0];
+      })
+      .attr("cy", function (d) {
+          return projection([d.Long_, d.Lat])[1];
+      })
+      // .attr("r", 5)
+      .attr("r", function(d){ return (d.UrbanPop20/500000+2)})
+      .attr("class", "endemicCirclesMap" )
+  });
+
+  d3.csv("./data/suitable.csv", function(d) {
+      svg.selectAll("circle")
+        .data(d)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) {
+            return projection([d.Long_, d.Lat])[0];
+        })
+        .attr("cy", function (d) {
+            return projection([d.Long_, d.Lat])[1];
+        })
+        .attr("r", 5)
+        .attr("r", function(d){ return (d.UrbanPop20/500000+2)})
+        .attr("class", "suitableCirclesMap" )
+    });
+
 
 
 } ///world map function
@@ -443,6 +442,7 @@ function display() {
       if(index==0 ){
         $("#vis").css("opacity", "0");
         $("#worldMap").css("opacity", "1");
+        app.updateSimulation3();
       }else if (index==1){
         app.updateSimulation0();
         $("#vis").css("opacity", "1");
