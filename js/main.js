@@ -7,6 +7,14 @@ $(function(){
   app.worldMap();
 });
 
+
+// window.addEventListener('resize', function(event){
+//   // do stuff here
+//   app.init();
+//   display();
+//   app.worldMap();
+// });
+
 const app = {};
 
 
@@ -23,11 +31,18 @@ const app = {};
   // section is called.
   var activateFunctions = [];
 
-  app.width = window.innerWidth; 
-  app.height = window.innerHeight;
-
 
 app.init = function(){
+
+  app.width = window.innerWidth; 
+  app.height = window.innerHeight;
+  
+  if( window.innerWidth > 1024) {
+    app.nodeRadius = 5;
+  }else{
+    app.nodeRadius = 3;
+    // console.log("smaller")
+  }
 
  var svg = d3.select('#vis').append('svg')
     .attr("width",app.width)
@@ -56,7 +71,7 @@ app.init = function(){
      });
 
 
-    console.log(nodes);
+    // console.log(nodes);
 
 
     var doubledHeight = app.height*5;
@@ -71,7 +86,7 @@ app.init = function(){
 
 
     var eachNode = node.append("circle")
-        .attr("r", 5)
+        .attr("r", app.nodeRadius)
         .attr("class", (d)=>{
             if (d.vaccFrmEndemic === "Yes" && d.destEndemic === "TRUE"){return "vacEndYesDestEndTrue"}
             else if (d.vaccFrmEndemic === "Yes" && d.destEndemic === "FALSE") { return "vacEndYesDestEndFalse"}
@@ -319,11 +334,13 @@ app.worldMap = function(){
     .attr("height",app.height);
 
 
-    d3.json("./data/countrieswithoutATA.json", (error,world)=>{
 
-  var listOfEndemicCountries = ["Colombia","Brazil","Panama","Colombia","Brazil","Panama","Brazil","Nigeria","Ghana", "Ivory Coast","Kenya","Senegal","Cameroon","Venezuela","Gabon","Democratic Republic of the Congo","Benin", "Mali","Paraguay","Uganda","Angola","Bolivia","Republic of Congo","Burkina Faso","Togo","South Sudan","Sudan"]
-      // listOfEndemicCountries.includes(d.properties.ADMIN)
-  var listOfSuitableCountries = ["United States Minor Outlying Islands", "United States of America", "Mexico", "United Arab Emirates", "Peru", "Ecuador", "Dominican Republic","Brazil", "Venezuela","China","India","Cuba","Saudi Arabia","Costa Rica","United Republic of Tanzania","Egypt","Argentina","Rwanda","Guatemala","El Salvador","Hong Kong S.A.R.","Thailand"]
+
+ d3.json("./data/countrieswithoutATA.json", (error,world)=>{
+
+  // var listOfEndemicCountries = ["Colombia","Brazil","Panama","Colombia","Brazil","Panama","Brazil","Nigeria","Ghana", "Ivory Coast","Kenya","Senegal","Cameroon","Venezuela","Gabon","Democratic Republic of the Congo","Benin", "Mali","Paraguay","Uganda","Angola","Bolivia","Republic of Congo","Burkina Faso","Togo","South Sudan","Sudan"]
+  //     // listOfEndemicCountries.includes(d.properties.ADMIN)
+  // var listOfSuitableCountries = ["United States Minor Outlying Islands", "United States of America", "Mexico", "United Arab Emirates", "Peru", "Ecuador", "Dominican Republic","Brazil", "Venezuela","China","India","Cuba","Saudi Arabia","Costa Rica","United Republic of Tanzania","Egypt","Argentina","Rwanda","Guatemala","El Salvador","Hong Kong S.A.R.","Thailand"]
 
 
 
@@ -381,8 +398,7 @@ app.worldMap = function(){
           });
     });
 
-
-  d3.csv("./data/endemic.csv", function(d) {
+d3.csv("./data/endemic.csv", function(d) {
     svg.selectAll("circle")
       .data(d)
       .enter()
@@ -398,7 +414,8 @@ app.worldMap = function(){
       .attr("class", "endemicCirclesMap" )
   });
 
-  d3.csv("./data/suitable.csv", function(d) {
+
+d3.csv("./data/suitable.csv", function(d) {
       svg.selectAll("circle")
         .data(d)
         .enter()
@@ -414,7 +431,11 @@ app.worldMap = function(){
         .attr("class", "suitableCirclesMap" )
     });
 
-
+  // d3.queue()
+  //   .defer(endemicMap)
+  //   .defer(worldMap)
+  //   .defer(suitableMap)
+  //   .awaitAll(ready);
 
 } ///world map function
 

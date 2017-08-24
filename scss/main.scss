@@ -1,12 +1,32 @@
 
 $fontFamily: "Source Sans Pro", sans-serif;
 
+$xl: 1500px;
+$lg: 1024px;
+$md: 768px;
+$sm: 480px;
+$xs: 320px;
+
+
+html {
+  @media (min-width: $xl) { font-size: 16px; }
+
+  @media (min-width: $lg) { font-size: 15px; }
+
+  @media (min-width: $md) { font-size: 14px; }
+
+  @media (min-width: $sm) { font-size: 13px; }
+
+  @media (min-width: $xs) { font-size: 12px; }
+
+  @media (max-width: $xs) { font-size: 11px; }
+}
 
 body{
   font-family: "Source Sans Pro", sans-serif;
 /*  background-color: #fff;
 */  background-color: #f7f7f7;
-  color: #1a0c03; /*textblack*/
+    color: #1a0c03; /*textblack*/
 }
 
 header {
@@ -107,7 +127,7 @@ stroke-width: 1;
   padding-left: 3rem;
   border-radius: 1rem;
 
-  margin-bottom: 50rem;
+  margin-bottom: 80vh;
   /* offset-x | offset-y | blur-radius | spread-radius | color */
   box-shadow: 0px 0px 30px 10px rgba(0,0,0,0.05);
 }
@@ -146,13 +166,12 @@ p {
 #sections {
   position: absolute;
   margin: auto;
-  width: 70%;
-  top: 100vh;
+  width: 85%;
+  top: 95vh;
   left: 50%;
   z-index: 5;
   transform: translate(-50%, -30rem);
-/*  transform: translateY();
-*/  text-align: center;
+  text-align: center;
 }
 
 #worldMap {
@@ -216,8 +235,9 @@ circle {
 }
 
 #conclusionContainer {
-  margin-bottom: 20rem;
-}
+  margin-bottom: 20vh;
+/*  @media (min-width: $xl) { margin-bottom: 30rem; }
+*/}
 
 /*.vacEndYesDestEndTrue {
     fill: #0093c8;
